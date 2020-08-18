@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { ApolloServer } = require('apollo-server');
 const typeDefs = require('./schema');
 const { createStore } = require('./utils');
@@ -21,6 +22,9 @@ const server = new ApolloServer({
     const users = await store.users.findOrCreate({ where: { email } });
     const user = users && users[0] || null;
     return { user: { ...user.dataValues } };
+  },
+  engine: {
+    reportSchema: true
   },
   typeDefs,
   resolvers,
